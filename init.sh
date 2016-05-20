@@ -7,5 +7,6 @@ sudo rm  /etc/nginx/sites-enabled/default
 sudo /etc/init.d/nginx restart
 
 sudo ln -s /home/box/web/etc/wsgi /etc/gunicorn.d/wsgi
+sudo ln -s /home/box/web/etc/django /etc/gunicorn.d/django
 sudo /etc/init.d/gunicorn restart
 
