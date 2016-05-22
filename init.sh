@@ -10,3 +10,4 @@ sudo ln -s /home/box/web/etc/wsgi /etc/gunicorn.d/wsgi
 sudo ln -s /home/box/web/etc/django /etc/gunicorn.d/django
 sudo /etc/init.d/gunicorn restart
 
+sudo /etc/init.d/mysql restart
