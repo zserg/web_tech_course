@@ -1,0 +1,28 @@
+{% extends "qa/base.html" %}
+
+{% block content %}
+
+{% for question in pquestions %}
+   <a href="{% url 'question-details' question.id %}"> {{ question.title|upper }}</a><br />
+{% endfor %}
+
+<div class="pagination">
+  <span class="step-links">
+    {% if pquestions.has_previous %}
+      <a href="?page={{ pquestions.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+      Page {{ pquestions.number }} of {{ pquestions.paginator.num_pages }}.
+    </span>
+
+    {% if pquestions.has_next %}
+      <a href="?page={{ pquestions.next_page_number }}">next</a>
+    {% endif %}
+  </span>
+</div>
+
+
+
+{% endblock %}
+
