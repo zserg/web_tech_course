@@ -1,22 +1,34 @@
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_GET
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Question, Answer
+from .forms import AnswerForm, AskForm
 
-@require_GET
 def question_details(request, slug):
-    question = get_object_or_404(Question, id = slug)
-    try:
-       answers = Answer.objects.filter(question = question)
-    except Answer.DoesNotExist:
-        answers = None
-
-    return render(request, 'qa/question_details.html',
-                  {'question' : question,
-                   'answers' : answers}
-                  )
+    if request.method == 'POST':
+        print 'Hello'
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            print "Yes"
+            print 'Cleaned', form.cleaned_data
+            answer = form.save()
+            url = reverse('question-details', args=(form.cleaned_data['question_id'],))
+            return HttpResponseRedirect(url)
+    else:
+        question = get_object_or_404(Question, id = slug)
+        try:
+           answers = Answer.objects.filter(question = question)
+        except Answer.DoesNotExist:
+            answers = None
+        form = AnswerForm({'question_id':slug})
+        return render(request, 'qa/question_details.html',
+                      {'question' : question,
+                       'answers' : answers,
+                       'form' : form}
+                      )
 
 
 @require_GET

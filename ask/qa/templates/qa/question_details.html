@@ -9,5 +9,11 @@
    {{ a.text }}
 {% endfor %}
 
+<form method = "post" action="{% url 'question-details' question.id %}">
+   {% csrf_token %}
+  {{ form.as_p }}
+  <button type = "submit"> Save </button>
+</form>
+
 {% endblock %}
 

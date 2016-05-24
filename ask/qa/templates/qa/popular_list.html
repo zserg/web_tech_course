@@ -3,7 +3,7 @@
 {% block content %}
 
 {% for question in pquestions %}
-   <a href="{% url 'question-details' question.id %}"> {{ question.title|upper }}</a><br />
+   <a href="{% url 'question-details' question.id %}"> {{ question.title }}</a><br />
 {% endfor %}
 
 <div class="pagination">
