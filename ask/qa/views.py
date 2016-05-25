@@ -6,8 +6,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Question, Answer
 from .forms import AnswerForm, AskForm
+import logging
+
+logger = logging.getLogger('APPNAME')
 
 def question_details(request, slug):
+    logger.debug('Logging here')
+    logger.debug(request)
+
     if request.method == 'POST':
         print 'Hello', request.POST
         print 'id', request.POST['question']
