@@ -12,9 +12,10 @@ logger = logging.getLogger('APPNAME')
 
 def question_details(request, slug):
     logger.debug('Logging here')
-    logger.debug(request)
 
     if request.method == 'POST':
+        logger.debug('cp0')
+        logger.debug(request.POST)
         print 'Hello', request.POST
         print 'id', request.POST['question']
 
@@ -26,6 +27,8 @@ def question_details(request, slug):
             url = reverse('question-details', args=(form.cleaned_data['question_id'],))
             return HttpResponseRedirect(url)
 
+    logger.debug('cp1')
+    logger.debug(request.GET)
     que = get_object_or_404(Question, id = slug)
     try:
        answers = Answer.objects.filter(question = que)
@@ -40,6 +43,7 @@ def question_details(request, slug):
 
 
 def ask(request):
+    logger.debug('Logging here ask')
     if request.method == 'POST':
         form = AskForm(request.POST)
         if form.is_valid():
@@ -48,7 +52,7 @@ def ask(request):
             return HttpResponseRedirect(url)
     else:
         form = AskForm()
-        return render(request, 'qa/ask.html',
+    return render(request, 'qa/ask.html',
                       {'form' : form})
 
 
