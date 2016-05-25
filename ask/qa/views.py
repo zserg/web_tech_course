@@ -31,6 +31,19 @@ def question_details(request, slug):
                       )
 
 
+def ask(request):
+    if request.method == 'POST':
+        form = AskForm(request.POST)
+        if form.is_valid():
+            question = form.save()
+            url = question.get_url()
+            return HttpResponseRedirect(url)
+    else:
+        form = AskForm()
+        return render(request, 'qa/ask.html',
+                      {'form' : form})
+
+
 @require_GET
 def question_list(request):
     question_list = Question.objects.all().order_by('-added_at')

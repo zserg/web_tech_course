@@ -7,16 +7,19 @@ class AskForm(forms.Form):
     text = forms.CharField(widget = forms.Textarea)
 
     def clean(self):
-        pass
+        print "clean here"
+        cleaned_data = super(AskForm, self).clean()
+        return cleaned_data
 
     def save(self):
         question = Question(**self.cleaned_data)
-        _user = User.objects.get_or_create(
+        user,_ = User.objects.get_or_create(
                 username=u'bob',
                 password=u'bobspassword',
                     )
-        question.author = _user
+        question.author = user
         question.save()
+        return question
 
 
 

@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.question_list, name='question-list'),
     url(r'^popular/$', views.popular_list, name='popular_list'),
+    url(r'^ask/$', views.ask, name='ask'),
     url(r'^question/(\d+)/', views.question_details, name='question-details'),
 
 )

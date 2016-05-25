@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -18,6 +19,9 @@ class Question(models.Model):
     likes = models.ManyToManyField(User, related_name = 'question_likes', blank = True)
     objects = QuestionManager()
 
+    def get_url(self):
+        url = reverse('question-details', args=(self.pk,))
+        return url
 
 class Answer(models.Model):
     text = models.TextField()
