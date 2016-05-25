@@ -9,7 +9,9 @@ from .forms import AnswerForm, AskForm
 
 def question_details(request, slug):
     if request.method == 'POST':
-        print 'Hello'
+        print 'Hello', request.POST
+        print 'id', request.POST['question']
+
         form = AnswerForm(request.POST)
         if form.is_valid():
             print "Yes"
@@ -18,14 +20,14 @@ def question_details(request, slug):
             url = reverse('question-details', args=(form.cleaned_data['question_id'],))
             return HttpResponseRedirect(url)
     else:
-        question = get_object_or_404(Question, id = slug)
+        que = get_object_or_404(Question, id = slug)
         try:
-           answers = Answer.objects.filter(question = question)
+           answers = Answer.objects.filter(question = que)
         except Answer.DoesNotExist:
             answers = None
-        form = AnswerForm({'question_id':slug})
+        form = AnswerForm(initial = {'question':slug})
         return render(request, 'qa/question_details.html',
-                      {'question' : question,
+                      {'question' : que,
                        'answers' : answers,
                        'form' : form}
                       )
