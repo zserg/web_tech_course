@@ -19,18 +19,18 @@ def question_details(request, slug):
             answer = form.save()
             url = reverse('question-details', args=(form.cleaned_data['question_id'],))
             return HttpResponseRedirect(url)
-    else:
-        que = get_object_or_404(Question, id = slug)
-        try:
-           answers = Answer.objects.filter(question = que)
-        except Answer.DoesNotExist:
-            answers = None
-        form = AnswerForm(initial = {'question':slug})
-        return render(request, 'qa/question_details.html',
-                      {'question' : que,
-                       'answers' : answers,
-                       'form' : form}
-                      )
+
+    que = get_object_or_404(Question, id = slug)
+    try:
+       answers = Answer.objects.filter(question = que)
+    except Answer.DoesNotExist:
+        answers = None
+    form = AnswerForm(initial = {'question':slug})
+    return render(request, 'qa/question_details.html',
+                  {'question' : que,
+                   'answers' : answers,
+                   'form' : form}
+                  )
 
 
 def ask(request):
