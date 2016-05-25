@@ -16,13 +16,14 @@ def question_details(request, slug):
     if request.method == 'POST':
         logger.debug('cp0')
         logger.debug(request.POST)
-        print 'Hello', request.POST
-        print 'id', request.POST['question']
+        #print 'Hello', request.POST
+        #print 'id', request.POST['question']
 
         form = AnswerForm(request.POST)
         if form.is_valid():
             print "Yes"
             print 'Cleaned', form.cleaned_data
+            logger.debug(cleaned_data)
             answer = form.save()
             url = reverse('question-details', args=(form.cleaned_data['question_id'],))
             return HttpResponseRedirect(url)
@@ -34,6 +35,8 @@ def question_details(request, slug):
        answers = Answer.objects.filter(question = que)
     except Answer.DoesNotExist:
         answers = None
+    logger.debug('cp2-slug')
+    logger.debug(slug)
     form = AnswerForm(initial = {'question':slug})
     return render(request, 'qa/question_details.html',
                   {'question' : que,

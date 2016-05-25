@@ -2,6 +2,9 @@ from django.http import Http404
 from django import forms
 from django.contrib.auth.models import User
 from .models import Question, Answer
+import logging
+
+logger = logging.getLogger('APPNAME')
 
 class AskForm(forms.Form):
     title = forms.CharField(max_length = 255)
@@ -37,9 +40,15 @@ class AnswerForm(forms.Form):
 
     def clean(self):
         print "clean here"
+        logger.debug(self.fields['question'].value())
+        logger.debug(self.fields)
+        q_id = self.fields['question_id'].value()
         cleaned_data = super(AnswerForm, self).clean()
-        q_id = cleaned_data['question']
-        del cleaned_data['question']
+        print cleaned_data
+        logger.debug("answer - clean")
+        logger.debug(cleaned_data)
+        #q_id = cleaned_data['question']
+        #del cleaned_data['question']
         cleaned_data['question_id'] = q_id
         print type(cleaned_data), cleaned_data
         return cleaned_data
