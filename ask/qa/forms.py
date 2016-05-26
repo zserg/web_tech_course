@@ -2,6 +2,7 @@ from django.http import Http404
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ObjectDoesNotExist
 from .models import Question, Answer
 import logging
 
@@ -46,18 +47,40 @@ class AnswerForm(forms.Form):
         return answer
 
 
-class UserCreateForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+class UserCreateForm(forms.Form):
+    username = forms.CharField()
+    email = forms.EmailField()
+    password = forms.CharField(widget = forms.PasswordInput())
+    password1 = forms.CharField(widget = forms.PasswordInput())
 
-    class Meta:
-        model = User
-        fields = ("username", "email", "password1", "password2")
+    def clean(self):
+        cleaned_data = super(UserCreateForm, self).clean()
+        print 'create',cleaned_data
+        password = cleaned_data['password']
+        password1 = cleaned_data['password1']
+        try:
+            user = User.objects.get(username = cleaned_data['username'])
+            return None
+        except ObjectDoesNotExist:
+            pass
 
-    def save(self, commit=True):
-        user = super(UserCreateForm, self).save(commit=False)
-        user.email = self.cleaned_data["email"]
-        if commit:
-            user.save()
+        try:
+            user = User.objects.get(email = cleaned_data['email'])
+            return None
+        except ObjectDoesNotExist:
+            pass
+
+        if password and password1 and password == password1:
+            return cleaned_data
+        else:
+            return None
+
+    def save(self):
+        username = self.cleaned_data["username"]
+        email = self.cleaned_data["email"]
+        password = self.cleaned_data["password"]
+        user = User.objects.create_user(username, email, password)
+        user.save()
         return user
 
 
