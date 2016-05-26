@@ -15,12 +15,8 @@ class AskForm(forms.Form):
         cleaned_data = super(AskForm, self).clean()
         return cleaned_data
 
-    def save(self):
+    def save(self, user):
         question = Question(**self.cleaned_data)
-        user,_ = User.objects.get_or_create(
-                username=u'bob',
-                password=u'bobspassword',
-                    )
         question.author = user
         question.save()
         return question
@@ -32,11 +28,7 @@ class AnswerForm(forms.Form):
     question = forms.IntegerField()
     question_id = forms.IntegerField()
 
-    def __init__(self, *args, **kwargs):
-        self.user,_ = User.objects.get_or_create(
-                      username=u'bob',
-                      password=u'bobspassword',
-                       )
+    def __init__(self,  *args, **kwargs):
         super(AnswerForm, self).__init__(*args,  **kwargs)
 
     def clean(self):
@@ -44,11 +36,11 @@ class AnswerForm(forms.Form):
         print "clean",cleaned_data
         return cleaned_data
 
-    def save(self):
+    def save(self, author):
         print "save",self.cleaned_data
         del self.cleaned_data['question']
         answer = Answer(**self.cleaned_data)
-        answer.author = self.user
+        answer.author = author
         answer.save()
         return answer
 

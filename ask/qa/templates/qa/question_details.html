@@ -1,12 +1,14 @@
 {% extends "qa/base.html" %}
 
 {% block content %}
+<div> User: {{ user }} </div>
 
 {{ question.title }}
 {{ question.text }}
+({{ question.author }})
 
 {% for a in answers %}
-   {{ a.text }}
+<div>  {{ a.text }} ({{ a.author }}) </div>
 {% endfor %}
 
 <form method = "post" action="{% url 'question-details' question.id %}">

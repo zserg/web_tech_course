@@ -29,3 +29,13 @@ class Answer(models.Model):
     question = models.ForeignKey(Question)
     author = models.ForeignKey(User)
 
+
+# class User(models.Models):
+#     login = model.CharField(unique=true)
+#     password = model.CharField()
+#     name = model.CharField()
+
+# class Session(models.Models):
+#     key = model.CharField(unique=true)
+#     user = model.ForeignKey(User)
+#     expires = model.DateTimeField()

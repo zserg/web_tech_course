@@ -2,8 +2,9 @@
 
 {% block content %}
 
+<div> User: {{ user }} </div>
 {% for question in questions %}
-   <a href="{% url 'question-details' question.id %}"> {{ question.title }}</a><br />
+   <a href="{% url 'question-details' question.id %}"> {{ question.title }}</a> {{ question.author }}<br />
 {% endfor %}
 
 <div class="pagination">
