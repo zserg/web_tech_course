@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from .models import Question, Answer
-from .forms import AnswerForm, AskForm
+from .forms import AnswerForm, AskForm, UserCreateForm
 import logging
 
 logger = logging.getLogger('APPNAME')
@@ -92,13 +92,13 @@ def popular_list(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserCreateForm(request.POST)
         if form.is_valid():
             user = form.save()
             url = reverse('question-list')
             return HttpResponseRedirect(url)
     else:
-        form = UserCreationForm()
+        form = UserCreateForm()
 
     return render(request, 'qa/signup.html',
                  {'form': form})
