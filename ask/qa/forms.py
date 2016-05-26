@@ -70,6 +70,7 @@ class UserCreateForm(forms.Form):
         except ObjectDoesNotExist:
             pass
 
+        return cleaned_data
         # if password and password1 and password == password1:
         #     return cleaned_data
         # else:
