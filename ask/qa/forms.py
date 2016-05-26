@@ -30,6 +30,7 @@ class AskForm(forms.Form):
 class AnswerForm(forms.Form):
     text = forms.CharField(widget = forms.Textarea)
     question = forms.IntegerField()
+    question_id = forms.IntegerField()
 
     def __init__(self, *args, **kwargs):
         self.user,_ = User.objects.get_or_create(
@@ -39,21 +40,13 @@ class AnswerForm(forms.Form):
         super(AnswerForm, self).__init__(*args,  **kwargs)
 
     def clean(self):
-        print "clean here"
-        logger.debug(self.fields['question'].value())
-        logger.debug(self.fields)
-        q_id = self.fields['question_id'].value()
         cleaned_data = super(AnswerForm, self).clean()
-        print cleaned_data
-        logger.debug("answer - clean")
-        logger.debug(cleaned_data)
-        #q_id = cleaned_data['question']
-        #del cleaned_data['question']
-        cleaned_data['question_id'] = q_id
-        print type(cleaned_data), cleaned_data
+        print "clean",cleaned_data
         return cleaned_data
 
     def save(self):
+        print "save",self.cleaned_data
+        del self.cleaned_data['question']
         answer = Answer(**self.cleaned_data)
         answer.author = self.user
         answer.save()

@@ -30,7 +30,7 @@ LOGGING = {
          'applogfile': {
               'level':'DEBUG',
               'class':'logging.handlers.RotatingFileHandler',
-              'filename': os.path.join('/home/box/web', 'APPNAME.log'),
+              'filename': os.path.join('/home/zserg/projects/web', 'APPNAME.log'),
               'maxBytes': 1024*1024*15, # 15MB
               'backupCount': 10,
          },
