@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import authenticate
 from .models import Question, Answer
 import logging
 
@@ -82,6 +83,7 @@ class UserCreateForm(forms.Form):
         password = self.cleaned_data["password"]
         user = User.objects.create_user(username, email, password)
         user.save()
+        user = authenticate(username=username, password=password)
         return user
 
 

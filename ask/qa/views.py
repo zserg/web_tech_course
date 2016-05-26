@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth import login
 
 from .models import Question, Answer
 from .forms import AnswerForm, AskForm, UserCreateForm
@@ -96,6 +97,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             url = reverse('question-list')
+            login(request, user)
             return HttpResponseRedirect(url)
     else:
         form = UserCreateForm()
