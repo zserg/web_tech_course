@@ -51,13 +51,13 @@ class UserCreateForm(forms.Form):
     username = forms.CharField()
     email = forms.EmailField()
     password = forms.CharField(widget = forms.PasswordInput())
-    password1 = forms.CharField(widget = forms.PasswordInput())
+    #password1 = forms.CharField(widget = forms.PasswordInput())
 
     def clean(self):
         cleaned_data = super(UserCreateForm, self).clean()
         print 'create',cleaned_data
         password = cleaned_data['password']
-        password1 = cleaned_data['password1']
+        #password1 = cleaned_data['password1']
         try:
             user = User.objects.get(username = cleaned_data['username'])
             return None
@@ -70,10 +70,10 @@ class UserCreateForm(forms.Form):
         except ObjectDoesNotExist:
             pass
 
-        if password and password1 and password == password1:
-            return cleaned_data
-        else:
-            return None
+        # if password and password1 and password == password1:
+        #     return cleaned_data
+        # else:
+        #     return None
 
     def save(self):
         username = self.cleaned_data["username"]
