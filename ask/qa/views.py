@@ -17,6 +17,7 @@ logger = logging.getLogger('APPNAME')
 @login_required
 def question_details(request, slug):
     logger.debug('Logging here')
+    logger.debug(request)
 
     if request.method == 'POST':
         form = AnswerForm(request.POST)
@@ -41,7 +42,7 @@ def question_details(request, slug):
 
 @login_required
 def ask(request):
-    logger.debug('Logging here ask')
+    print "ask"
     if request.method == 'POST':
         form = AskForm(request.POST)
         if form.is_valid():
@@ -92,6 +93,7 @@ def popular_list(request):
                   )
 
 def signup(request):
+    logger.debug(request)
     if request.method == 'POST':
         form = UserCreateForm(request.POST)
         if form.is_valid():
