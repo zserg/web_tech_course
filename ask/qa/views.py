@@ -14,7 +14,7 @@ import logging
 
 logger = logging.getLogger('APPNAME')
 
-@login_required
+#@login_required
 def question_details(request, slug):
     logger.debug('Logging here')
     logger.debug(request)
@@ -40,10 +40,13 @@ def question_details(request, slug):
                   )
 
 
-@login_required
+#@login_required
 def ask(request):
     print "ask"
     if request.method == 'POST':
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect('/login/')
+
         form = AskForm(request.POST)
         if form.is_valid():
             user = User.objects.get(username = request.user.username)
